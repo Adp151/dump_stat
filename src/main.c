@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 
     int joined_data_size = 0;
     StatData * joined_data = JoinDump(l_data, l_data_size, r_data, r_data_size, &joined_data_size);
-    if(joined_data == NULL) {
+    if(joined_data_size == -1) {
         return ERROR_INTERNAL;
     }
 

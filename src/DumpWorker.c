@@ -74,7 +74,7 @@ StatData * JoinDump(const StatData * lhs, const int lhs_size, const StatData * r
     HashTable * ht = HTcreate();
     if (!ht) {
         printf("Failed to create hash table\n");
-        *out_data_size = 0;
+        *out_data_size = -1;
         return NULL;
     }
 
@@ -84,7 +84,7 @@ StatData * JoinDump(const StatData * lhs, const int lhs_size, const StatData * r
     if (!keys) {
         printf("Failed to allocate memory for keys\n");
         HTfree(ht);
-        *out_data_size = 0;
+        *out_data_size = -1;
         return NULL;
     }
 
@@ -115,7 +115,7 @@ StatData * JoinDump(const StatData * lhs, const int lhs_size, const StatData * r
         printf("Failed to allocate memory for result\n");
         free(keys);
         HTfree(ht);
-        *out_data_size = 0;
+        *out_data_size = -1;
         return NULL;
     }
 

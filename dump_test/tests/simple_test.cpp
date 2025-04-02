@@ -112,7 +112,7 @@ void StatDataDumpTest::RunTest(
     ASSERT_NO_FATAL_FAILURE(CheckResult(expected_data));
 }
 
-TEST_F(StatDataDumpTest, Simple) {
+TEST_F(StatDataDumpTest, TestExample) {
     const std::vector<StatData> l_data = 
         {
             {.id = 90889, .count = 13, .cost = 3.567, .primary = 0, .mode=3 },
@@ -132,5 +132,10 @@ TEST_F(StatDataDumpTest, Simple) {
         {.id = 90089, .count = 14, .cost = 88.911, .primary = 0, .mode = 2 }
     };
     
+    ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
+}
+
+TEST_F(StatDataDumpTest, TwoEmptyArray){
+    const std::vector<StatData> l_data, r_data, expected_data;
     ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
 }
