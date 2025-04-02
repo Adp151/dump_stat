@@ -55,7 +55,7 @@ int LoadDump(const char * filepath, StatData ** out_data, int * out_size) {
     int read_count = fread(*out_data, sizeof(StatData), *out_size, file);
     if (read_count != *out_size) {
         free(*out_data);
-        *out_data = NULL; // Установить в NULL после освобождения
+        *out_data = NULL;
         printf("Failed to read data, expected rows = %d, read = %d\n", *out_size, read_count);
         fclose(file);
         return -1;
@@ -136,7 +136,8 @@ static int cmp(const void * lhs, const void * rhs) {
     float difference = _lhs->cost - _rhs->cost;
 
     if (fabsf(difference) < FLOAT_PRECISION) {
-        return 0;
+        //if difference == 0, sort by id
+        return _lhs->id - _rhs->id;
     } else if (difference < 0) {
         return -1;
     } else {

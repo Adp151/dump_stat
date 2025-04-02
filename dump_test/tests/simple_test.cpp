@@ -112,6 +112,10 @@ void StatDataDumpTest::RunTest(
     ASSERT_NO_FATAL_FAILURE(CheckResult(expected_data));
 }
 
+/*
+Пример теста из ТЗ. Покрывает следующие случаи: строки с одинаковыми id объединяются по правилам из ТЗ
+Сортировка по cost
+*/
 TEST_F(StatDataDumpTest, TestExample) {
     const std::vector<StatData> l_data = 
         {
@@ -137,5 +141,76 @@ TEST_F(StatDataDumpTest, TestExample) {
 
 TEST_F(StatDataDumpTest, TwoEmptyArray){
     const std::vector<StatData> l_data, r_data, expected_data;
+    ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
+}
+
+TEST_F(StatDataDumpTest, OneEmptyArray) {
+    const std::vector<StatData> l_data;
+    const std::vector<StatData> r_data =
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+    const auto expected_data = r_data;
+
+    ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
+}
+
+TEST_F(StatDataDumpTest, AllUniqueIdsUniqueCost) {
+    const std::vector<StatData> l_data = 
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 },
+        { .id = 2, .count = 1, .cost = 1.12, .primary = 1, .mode = 5 }
+    };
+    const std::vector<StatData> r_data =
+    {
+        { .id = 3, .count = 1, .cost = 1.13, .primary = 1, .mode = 5 },
+        { .id = 4, .count = 1, .cost = 1.14, .primary = 1, .mode = 5 }
+    };
+    const std::vector<StatData> expected_data =
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 },
+        { .id = 2, .count = 1, .cost = 1.12, .primary = 1, .mode = 5 },
+        { .id = 3, .count = 1, .cost = 1.13, .primary = 1, .mode = 5 },
+        { .id = 4, .count = 1, .cost = 1.14, .primary = 1, .mode = 5 }
+    };
+
+    ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
+}
+
+// Проверка, что при одинаковой cost сортировка будет по id
+TEST_F(StatDataDumpTest, OneCostForAll) {
+    const std::vector<StatData> l_data = 
+    {
+        { .id = 4, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+    const std::vector<StatData> r_data =
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+    const std::vector<StatData> expected_data = 
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 },
+        { .id = 4, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+
+    ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
+}
+
+// Проверка, что при одинаковой cost сортировка будет по id
+TEST_F(StatDataDumpTest, OneCostCheckSortById) {
+    const std::vector<StatData> l_data = 
+    {
+        { .id = 4, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+    const std::vector<StatData> r_data =
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+    const std::vector<StatData> expected_data = 
+    {
+        { .id = 1, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 },
+        { .id = 4, .count = 1, .cost = 1.11, .primary = 1, .mode = 5 }
+    };
+
     ASSERT_NO_FATAL_FAILURE(RunTest(l_data, r_data, expected_data));
 }
