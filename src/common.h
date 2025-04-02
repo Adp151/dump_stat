@@ -1,5 +1,4 @@
-#ifndef COMMON_H
-#define COMMON_H
+#pragma once
 
 static const int MAX_HASH_TABLE_SIZE =  100000;
 static const int FIRST_ELEMS_IN_DATA = 10;
@@ -27,5 +26,3 @@ typedef struct StatData {
     unsigned int primary;
     unsigned int mode;
 } StatData;
-
-#endif
